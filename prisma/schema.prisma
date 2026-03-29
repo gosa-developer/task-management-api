@@ -8,53 +8,39 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
-  name      String?
-  tasks     Task[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("users")
-}
-
-model Category {
-  id        Int      @id @default(autoincrement())
-  name      String   @unique
-  tasks     Task[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("categories")
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  password String
+  tasks    Task[]
 }
 
 model Task {
-  id          Int       @id @default(autoincrement())
-  title       String
-  description String?
-  status      Status    @default(pending)
-  priority    Priority  @default(medium)
-  dueDate     DateTime?
-  userId      Int
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  categoryId  Int?
-  category    Category? @relation(fields: [categoryId], references: [id])
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-
-  @@map("tasks")
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String?
+  status    Status   @default(PENDING)
+  priority  Priority @default(MEDIUM)
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String?  // <--- Ensure this exact line exists
+  status    Status   @default(PENDING)
+  priority  Priority @default(MEDIUM)
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
 }
 
+
 enum Status {
-  pending
-  in_progress
-  completed
+  PENDING
+  IN_PROGRESS
+  COMPLETED
 }
 
 enum Priority {
-  low
-  medium
-  high
+  LOW
+  MEDIUM
+  HIGH
 }
-//schema prisma 
